@@ -43,3 +43,65 @@ function handleSubmit(event) {
 }
 
 submitButton.addEventListener('click', handleSubmit);
+
+function genRandomHexCode() {
+  return '#' + ((Math.random() * 0xffffff) << 0).toString(16).padStart(6, '0');
+}
+
+function getColumnCells(tableId, columnIndex) {
+  const table = document.getElementById(tableId);
+  const cells = [];
+
+  const cellsNumberByOrder = columnIndex % 6;
+
+  for (let row of table.rows) {
+    for (let i = 0; i < row.cells.length; i++) {
+      if (i === cellsNumberByOrder) {
+        cells.push(row.cells[i]);
+      }
+    }
+  }
+  return cells;
+}
+
+function setCellEventHandlers(cell, index) {
+  cell.isBackgroundColorSet = false;
+  cell.staticBackgroundColor = '';
+
+  function handleEvent(eventType) {
+    return function (e) {
+      if (eventType === 'mouseenter') {
+        e.target.style.backgroundColor = genRandomHexCode();
+      } else if (eventType === 'mouseleave') {
+        if (!cell.isBackgroundColorSet) {
+          e.target.style.backgroundColor = '';
+        } else if (cell.staticBackgroundColor) {
+          e.target.style.backgroundColor = cell.staticBackgroundColor;
+        }
+      } else if (eventType === 'click') {
+        const color = document.getElementById('favcolor').value;
+        e.target.style.backgroundColor = color;
+        cell.isBackgroundColorSet = true;
+        cell.staticBackgroundColor = color;
+      } else if (eventType === 'dblclick') {
+        const cells = getColumnCells('mytable', index);
+        const color = document.getElementById('favcolor').value;
+        cells.forEach(cell => {
+          cell.style.backgroundColor = color;
+          cell.isBackgroundColorSet = true;
+          cell.staticBackgroundColor = color;
+        });
+      }
+    };
+  }
+
+  cell.addEventListener('mouseenter', handleEvent('mouseenter'));
+  cell.addEventListener('mouseleave', handleEvent('mouseleave'));
+  cell.addEventListener('click', handleEvent('click'));
+  cell.addEventListener('dblclick', handleEvent('dblclick'));
+}
+
+const tds = document.getElementsByTagName('td');
+Array.from(tds).forEach((cell, index) => {
+  setCellEventHandlers(cell, index);
+});

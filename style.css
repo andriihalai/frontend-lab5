@@ -29,6 +29,38 @@ form {
   padding: 0.5rem;
   margin-top: 0.5rem;
 }
+
 .submit-button:hover {
   cursor: pointer;
+}
+
+table {
+  margin: 1rem;
+  width: 20rem;
+  border: #000 solid;
+  border-collapse: collapse;
+}
+
+td {
+  border: #000 solid;
+  text-align: center;
+}
+
+.color-palette {
+  display: flex;
+  gap: 10px;
+}
+
+.color-swatch {
+  width: 100px;
+  height: 100px;
+  background-color: var(--color);
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.color-swatch:hover {
+  transform: scale(1.1);
 }
