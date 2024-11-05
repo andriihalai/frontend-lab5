@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Введені дані</title>
+  </head>
+  <body>
+    <h2>Введені дані</h2>
+    <output id="output-data"></output>
+    <script>
+      const map = {
+        fname: 'ПІБ',
+        group: 'Група',
+        phone: 'Телефон',
+        idCard: 'ID-card',
+        faculty: 'Факультет',
+      };
+
+      window.addEventListener('DOMContentLoaded', () => {
+        const outputContainer = document.getElementById('output-data');
+        const formData = JSON.parse(localStorage.getItem('formData'));
+
+        if (formData && outputContainer) {
+          outputContainer.textContent = '';
+          for (const [key, value] of Object.entries(formData)) {
+            outputContainer.innerHTML += `${map[key]}: ${value}<br />`;
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
