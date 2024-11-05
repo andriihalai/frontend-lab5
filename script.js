@@ -3,7 +3,7 @@ const fields = {
   group: document.getElementById('group'),
   phone: document.getElementById('phone'),
   idCard: document.getElementById('idCard'),
-  faculty: document.getElementById('faculty'),
+  variant: document.getElementById('variant'),
 };
 const submitButton = document.getElementById('submit-button');
 
@@ -12,7 +12,7 @@ const validationRegex = {
   group: /^[А-ЯІЇЄ]{2}-\d{2}$/,
   phone: /^\(\d{3}\)-\d{3}-\d{2}-\d{2}$/,
   idCard: /^[А-ЯІЄЇ]{2} №\d{6}$/,
-  faculty: /^[А-ЯІЇЄ ]+$/,
+  variant: /^[1-9][0-9]?$/,
 };
 
 Object.values(fields).forEach(field => {
@@ -50,18 +50,10 @@ function genRandomHexCode() {
 
 function getColumnCells(tableId, columnIndex) {
   const table = document.getElementById(tableId);
-  const cells = [];
+  const rowIndex = Math.floor(columnIndex / 6);
+  const row = table.rows[rowIndex];
 
-  const cellsNumberByOrder = columnIndex % 6;
-
-  for (let row of table.rows) {
-    for (let i = 0; i < row.cells.length; i++) {
-      if (i === cellsNumberByOrder) {
-        cells.push(row.cells[i]);
-      }
-    }
-  }
-  return cells;
+  return Array.from(row.cells);
 }
 
 function setCellEventHandlers(cell, index) {
